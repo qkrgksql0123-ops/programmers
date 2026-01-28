@@ -13,6 +13,8 @@ public class ProcBoard {
 	Statement st = null;
 	Scanner sc = new Scanner(System.in);
 	int perpage = 3;
+	boolean login = false;
+	String user_id = "";
 	
 	private void init() {
 		try {
@@ -25,28 +27,55 @@ public class ProcBoard {
 	 void run() {
 		Display.Title();
 		init();
-		signin();
-		signup();
+		loop_b:
 		while(true) {
-			Display.Menu();
+			Display.First();
 			System.out.println("명령 : ");
 			String cmd = sc.next();
+			loop_a:
 			switch (cmd) {
 			case "1":
-				dbtotal();
-				dblist();
+				signin();
+				if(login == true) {
+					while(true) {
+						Display.Menu();
+						System.out.println("명령 : ");
+						String user = sc.next();
+						switch (user) {
+						case "1":
+							dbtotal();
+							dblist();
+							break;
+						case "2":
+							dbread();
+							break;
+						case "3":
+							dbupdate();
+							break;
+						case "4":
+							dbdel();
+						case "5":
+							dbwirte();
+							break;
+						case "6":
+							comment();
+							break;
+						case "7":
+							login = false;
+							System.out.println("로그아웃 되었습니다.");
+							break loop_a;
+						default:
+							break;
+						}
+					}
+				}
 				break;
 			case "2":
-				dbread();
+				signup();
 				break;
 			case "3":
-				dbupdate();
-				break;
-			case "4":
-				dbdel();
-				break;
-			default:
-				break;
+				System.out.println("프로그램을 종료합니다.");
+				break loop_b;
 			}
 			
 		}
@@ -77,11 +106,25 @@ public class ProcBoard {
 			System.out.println(sql);
 			try {
 				result = st.executeQuery(sql);
-				while(result.next()) {
+				loop:while(result.next()) {
 					String no = result.getString("b_no");
 					String text = result.getString("b_text");
-					String comment = result.getString("comment");
-					System.out.println("번호 : "+no+" 내용 : "+text+" 댓글 :"+comment);
+					String rely_text = result.getString("b_reply_text");
+					System.out.println("번호 : "+no+" 내용 : "+text+" 댓글 :"+rely_text);
+				}
+				loop:while(true) {
+				System.out.println("=======댓글 리스트=======");
+				System.out.println("명령[x:나가기, r:댓글쓰기]");
+				String user = sc.next();
+				if(user.equals("x")) {
+					break loop;
+				}else {
+					System.out.println("댓글 : ");
+					String comment = sc.next();
+					String sql1 = String.format("update board set b_reply_text='%s'where b_no= '%s'",comment,cmd);
+					st.executeUpdate(sql1);
+					System.out.println("작성완료");
+				}
 				}
 			}catch (SQLException e) {
 				e.printStackTrace();
@@ -152,15 +195,50 @@ public class ProcBoard {
 			result = st.executeQuery(sql);
 			if(result.next()) {
 				System.out.println("로그인 성공"+result.getString("s_id")+"님");
+				user_id = result.getString("s_id");
+				login = true; 
 				break;
 				}else {
 					System.out.println("없는 계정 입니다.");
+					login = false;
 	
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}	
 	}
+	
+	private void dbwirte() {
+		System.out.println("제목 : ");
+		String title = sc.next();
+		System.out.println("내용 : ");
+		String text = sc.next();
+		String sql = String.format("insert into board (b_title,b_id,b_text,b_datetime) values('%s','%s','%s',now())", title,user_id,text);
+		try {
+			int result = st.executeUpdate(sql);
+			System.out.println("실행된 행 : "+  result);
+		}catch (SQLException e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+	}
+	
+	private void comment() {
+		System.out.println("댓글 달 번호");
+		int id = sc.nextInt();
+		System.out.println("내용 : ");
+		String user_comment = sc.next();
+		String sql = String.format("update board set b_reply_text='%s' where b_no=%d",user_comment,id);
+		int result;
+		try {
+			result = st.executeUpdate(sql);
+			System.out.println("실행된 행 : "+result);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	}
