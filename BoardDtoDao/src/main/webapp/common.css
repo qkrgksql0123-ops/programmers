@@ -1,0 +1,108 @@
+/* 상세 보기 컨테이너 */
+
+/* --- 기본 공통 설정 --- */
+body {
+    font-family: 'Pretendard', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 20px;
+}
+
+/* --- 글쓰기 & 수정 페이지 전용 (write.jsp, edit.jsp) --- */
+.write-container {
+    max-width: 600px;
+    margin: 50px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.input-group { margin-bottom: 20px; text-align: left; }
+.input-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #555; }
+.input-group input, .input-group textarea {
+    width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;
+}
+.input-group textarea { height: 200px; resize: none; }
+.submit-btn {
+    width: 100%; padding: 15px; background-color: #4a90e2; color: white; border: none;
+    border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer;
+}
+
+/* --- 상세 보기 전용 (read.jsp) --- */
+/* 네가 아까 올린 .read-container 코드들을 이 아래에 쭉 붙여넣으면 돼! */
+.read-container {
+    max-width: 800px;
+    margin: 50px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+/* ... 이하 생략 (네가 올린 나머지 코드들) ... */
+.read-container {
+    max-width: 800px;
+    margin: 50px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* 제목 영역 */
+.read-header {
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.read-header h2 {
+    font-size: 28px;
+    color: #2c3e50;
+    margin: 0 0 15px 0;
+}
+
+.read-info {
+    font-size: 14px;
+    color: #888;
+    display: flex;
+    gap: 20px;
+}
+
+.read-info span b {
+    color: #555;
+}
+
+/* 본문 영역 */
+.read-content {
+    min-height: 300px;
+    line-height: 1.8;
+    font-size: 16px;
+    color: #444;
+    white-space: pre-wrap; /* 줄바꿈 그대로 표시 */
+    margin-bottom: 40px;
+}
+
+/* 하단 버튼 영역 */
+.read-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 20px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.btn-list { background: #f8f9fa; color: #666; border: 1px solid #ddd; }
+.btn-edit { background: #4a90e2; color: white; }
+.btn-del { background: #e74c3c; color: white; }
+
+.btn:hover { opacity: 0.8; }
